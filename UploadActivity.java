@@ -1,5 +1,3 @@
-package com.example.parksn.aaa;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -53,11 +51,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
-
-/**
- * 0716 채린 카테고리 분류 넘버링으로 변경 switcg case
- * 고쳐야할거 많음
- */
 
 public class UploadActivity extends AppCompatActivity {
     private static String IP_ADDRESS = "192.168.219.106";
@@ -130,10 +123,6 @@ public class UploadActivity extends AppCompatActivity {
         imgview_2 = (ImageView)findViewById(R.id.imgview_2);
         imgview_3 = (ImageView)findViewById(R.id.imgview_3);
 
-        //imgview_1.setImageResource(R.drawable.img_noimage);
-        //imgview_2.setImageResource(R.drawable.img_noimage);
-        //imgview_3.setImageResource(R.drawable.img_noimage);
-
         //유진
         edit_title = (EditText)findViewById(R.id.edit_title);
         edit_etc = (EditText)findViewById(R.id.post_category_etc);
@@ -157,7 +146,7 @@ public class UploadActivity extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // *** 존말할 때 선택하라고 협박하기 ***
+                // 
             }
         });
 
@@ -468,7 +457,7 @@ public class UploadActivity extends AppCompatActivity {
                         task.execute("http://" + IP_ADDRESS + "/post_test.php", lorf, writer_id, title, category, datetime, location1, location2, location, expln, isfound, selfcategory, img_names.get(0), img_names.get(1), img_names.get(2));
                     }
 
-                    Log.i("주소가 변환이 되었냐", location); //location 값 php로 db에 넘기기
+                    Log.i("주소 변환", location); //location 값 php로 db에 넘기기
                     finish(); //글두개 연속으로 쓰면 오류
                 }
                 break;
@@ -497,7 +486,7 @@ public class UploadActivity extends AppCompatActivity {
                                 }
                                 @Override
                                 public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-                                    Log.i("주소변환 실패 : ", "무척 안타깝네요 흑흑");
+                                    Log.i("주소변환 실패 : ", "무척 안타깝네요");
                                 }
                             }, this);
                     reverseGeoCoder.startFindingAddress();
@@ -546,22 +535,6 @@ public class UploadActivity extends AppCompatActivity {
             }
         }
     }
-    /*
-    create table post(
-      post_id bigint(20) unsigned not null auto_increment,
-      lorf varchar(255) not null,
-      writer_id varchar(255) not null,
-      title varchar(255) not null,
-      category varchar(255) not null,
-      date varchar(255) not null,
-      time varchar(255) not null,
-      location1 varchar(255) not null,
-      location2 varchar(255) not null,
-      expln varchar(255) not null,
-      isfound varchar(255) not null,
-      primary key (post_id)
-)  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-     */
 
     //민희
     class UploadPost extends AsyncTask<String, Void, String> {
@@ -717,14 +690,6 @@ public class UploadActivity extends AppCompatActivity {
                         Bitmap orgFile = BitmapFactory.decodeFile(img_uris.get(i).toString(), options);
                         orgFile.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
 
-                        /*
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inSampleSize = 4;   // 또는 4로 지정
-                        Bitmap orgFile = BitmapFactory.decodeFile(img_uris.get(i).toString(), options);
-                        FileOutputStream fileOutputStream = new FileOutputStream(img_uris.get(i).toString());
-                        orgFile.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-                        */
-
                         //이미지파일 전송
                         File file = new File(cacheDir + "/" + tmpFileName);
                         FileInputStream fileInputStream = new FileInputStream(file);
@@ -734,7 +699,6 @@ public class UploadActivity extends AppCompatActivity {
                         dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                         dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
                         dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file_" + a + "\";filename=\"" + cacheDir + "/" + tmpFileName + "\"" + lineEnd);
-                        //dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file_" + a + "\";filename=\"" + img_uris.get(i).toString() + "\"" + lineEnd);
                         dataOutputStream.writeBytes(lineEnd);
 
                         bytesAvailable = fileInputStream.available();
